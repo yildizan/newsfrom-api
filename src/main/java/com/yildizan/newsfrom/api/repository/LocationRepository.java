@@ -1,15 +1,14 @@
 package com.yildizan.newsfrom.api.repository;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-
 import com.yildizan.newsfrom.api.entity.Location;
+import com.yildizan.newsfrom.api.entity.LocationType;
+import org.springframework.stereotype.Repository;
 
-public interface LocationRepository extends CrudRepository<Location, Integer> {
+import java.util.List;
 
-    @Query("select l " +
-            "from Location l " +
-            "where l.locationTypeId = 1")
-    Iterable<Location> findCountries();
+@Repository
+public interface LocationRepository extends ReadOnlyRepository<Location, Integer> {
+
+    List<Location> findByLocationType(LocationType locationType);
 
 }
