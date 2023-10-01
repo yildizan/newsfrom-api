@@ -16,7 +16,7 @@ public class FeedController {
 
     @GetMapping(path = "/feed")
     public List<FeedDto> fetch() {
-        return feedService.findHavingNews();
+        return feedService.getFeeds();
     }
 
 }

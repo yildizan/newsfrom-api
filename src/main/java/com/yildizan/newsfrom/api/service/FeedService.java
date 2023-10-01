@@ -1,14 +1,17 @@
 package com.yildizan.newsfrom.api.service;
 
 import com.yildizan.newsfrom.api.dto.FeedDto;
-import com.yildizan.newsfrom.api.entity.BaseNews;
 import com.yildizan.newsfrom.api.entity.Feed;
 import com.yildizan.newsfrom.api.mapper.DtoMapper;
 import com.yildizan.newsfrom.api.repository.FeedRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -17,11 +20,18 @@ public class FeedService {
     private final DtoMapper mapper;
     private final FeedRepository feedRepository;
 
-    public List<FeedDto> findHavingNews() {
-        List<Feed> feeds = feedRepository.findHavingNews();
-        for (Feed feed : feeds) {
-            feed.getNewsList().removeIf(BaseNews::isNotLocated);
+    @Cacheable(value = "feeds")
+    public List<FeedDto> getFeeds() {
+        List<Feed> allFeeds = feedRepository.findAll();
+        List<Feed> feeds = new LinkedList<>();
+
+        for (Feed feed : allFeeds) {
+            if (feed.hasLocatedNews()) {
+                feed.filterNews();
+                feeds.add(feed);
+            }
         }
+
         return mapper.toFeedDtos(feeds);
     }
 
