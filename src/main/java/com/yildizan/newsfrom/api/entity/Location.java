@@ -2,10 +2,10 @@ package com.yildizan.newsfrom.api.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 
 @Data
 @Entity
