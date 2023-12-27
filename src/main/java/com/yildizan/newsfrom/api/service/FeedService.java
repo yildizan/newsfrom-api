@@ -10,6 +10,7 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +35,8 @@ public class FeedService {
 
         return mapper.toFeedDtos(feeds);
     }
+
+    @CacheEvict(value = "feeds", allEntries = true)
+    public void evict() { }
 
 }

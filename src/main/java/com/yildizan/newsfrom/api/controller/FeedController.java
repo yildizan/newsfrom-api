@@ -2,7 +2,9 @@ package com.yildizan.newsfrom.api.controller;
 
 import com.yildizan.newsfrom.api.dto.FeedDto;
 import com.yildizan.newsfrom.api.service.FeedService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,11 @@ public class FeedController {
     @GetMapping(path = "/feed")
     public List<FeedDto> fetch() {
         return feedService.getFeeds();
+    }
+
+    @GetMapping(path = "/feed/evict")
+    public void evict() {
+        feedService.evict();
     }
 
 }
