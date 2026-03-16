@@ -23,10 +23,6 @@ public class BaseNews {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    @ManyToOne
-    @JoinColumn(name = "phrase_id")
-    private Phrase phrase;
-
     private String title;
     private String description;
     private String link;
@@ -35,8 +31,12 @@ public class BaseNews {
     @Convert(converter = TimeConverter.class)
     private Long publishDate;
 
+    private String place;
+    private Double latitude;
+    private Double longitude;
+
     public boolean isLocated() {
-        return Objects.nonNull(phrase) && Objects.nonNull(phrase.getLocation());
+        return Objects.nonNull(place);
     }
 
     public boolean isNotLocated() {

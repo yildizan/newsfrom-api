@@ -17,6 +17,8 @@ public class NewsDto {
     private String link;
     private String thumbnailUrl;
     private Long publishDate;
-    private LocationDto location;
+    private String place;
+    private Double latitude;
+    private Double longitude;
 
 }

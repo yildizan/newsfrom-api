@@ -13,14 +13,10 @@ public interface DtoMapper {
 
     BaseDto toPublisherDto(Publisher publisher);
 
-    LocationDto toLocationDto(Location location);
-    List<LocationDto> toLocationDtos(List<Location> locations);
-
     FeedDto toFeedDto(Feed feed);
     List<FeedDto> toFeedDtos(List<Feed> feeds);
 
     @Named(value = "toNewsDto")
-    @Mapping(source = "phrase.location", target = "location")
     NewsDto toNewsDto(BaseNews news);
 
     @IterableMapping(qualifiedByName = "toNewsDto")
@@ -28,8 +24,7 @@ public interface DtoMapper {
 
     @Mappings(value = {
             @Mapping(source = "feed.category", target = "category"),
-            @Mapping(source = "feed.publisher", target = "publisher"),
-            @Mapping(source = "phrase.location", target = "location")
+            @Mapping(source = "feed.publisher", target = "publisher")
     })
     RichNewsDto toRichNewsDto(BaseNews news);
 
