@@ -5,11 +5,14 @@ import com.yildizan.newsfrom.api.entity.Feed;
 import com.yildizan.newsfrom.api.mapper.DtoMapper;
 import com.yildizan.newsfrom.api.repository.FeedRepository;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.LinkedList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,9 @@ public class FeedService {
 
     private final DtoMapper mapper;
     private final FeedRepository feedRepository;
+
+    @Value("${api.key}")
+    private String apiKey;
 
     @Cacheable(value = "feeds")
     public List<FeedDto> getFeeds() {
@@ -37,6 +43,12 @@ public class FeedService {
     }
 
     @CacheEvict(value = "feeds", allEntries = true)
-    public void evict() { }
+    public void evict(String key) {
+        if (key == null || !MessageDigest.isEqual(
+                apiKey.getBytes(StandardCharsets.UTF_8),
+                key.getBytes(StandardCharsets.UTF_8))) {
+            throw new SecurityException("invalid api key");
+        }
+    }
 
 }
