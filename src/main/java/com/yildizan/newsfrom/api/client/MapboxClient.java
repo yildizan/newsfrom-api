@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "mapbox", url = "https://api.mapbox.com")
 public interface MapboxClient {
 
-    @GetMapping("/styles/v1/yildizan/cjzfop7z51bop1cmvns8ekqa4/tiles/256/{z}/{x}/{y}")
+    @GetMapping("${mapbox.style-path}/{z}/{x}/{y}")
     byte[] fetchTile(
             @PathVariable("z") int z,
             @PathVariable("x") int x,
